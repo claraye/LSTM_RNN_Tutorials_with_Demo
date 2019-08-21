@@ -1,14 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from pandas import read_csv
 import math
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
-from keras.layers.core import Dense, Activation, Dropout
+from keras.layers.core import Dropout
 import time #helper libraries
 
 # file is downloaded from finance.yahoo.com, 1.1.1997-1.1.2017
@@ -29,7 +28,10 @@ def create_dataset(dataset, look_back=1):
 np.random.seed(5)
 
 # load the dataset
-df = read_csv(input_file, header=None, index_col=None, delimiter=',')
+df = pd.read_csv(input_file, header=None, index_col=None, delimiter=',')
+
+
+start_time = time.time()
 
 # take close price column[5]
 all_y = df[5].values
@@ -104,4 +106,5 @@ df.to_csv("lstm_result.csv", sep=';', index=None)
 plt.plot(testPredictPlot)
 plt.show()
 
-
+end_time = time.time()
+print('***** Run time: %s seconds *****' % (end_time - start_time))
